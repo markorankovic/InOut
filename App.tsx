@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, useEffect, useState } from 'react';
+import React, { PropsWithChildren, useState } from 'react';
 import { Button, ScrollView, Text, TextStyle, View, ViewStyle } from 'react-native';
 import { authorize, logout } from 'react-native-app-auth';
 
@@ -50,8 +50,8 @@ function LoginView(props: { login: boolean, idToken: string | undefined, setIdTo
   async function LOGIN() {
     const config = {
       issuer: 'https://login.microsoftonline.com/e9b7c3ca-e5b9-4e36-9505-31492675d3aa/v2.0',
-      clientId : "7be81a56-1dbd-4817-b662-f9498b74fd4b",
-      redirectUrl: "com.inout://oauth/redirect",
+      clientId : '7be81a56-1dbd-4817-b662-f9498b74fd4b',
+      redirectUrl: 'com.inout://oauth/redirect',
       scopes: ['openid', 'profile', 'email', 'offline_access'],
     };
 
@@ -83,8 +83,7 @@ function App(): React.JSX.Element {
   return (
     <View style={SCREEN}>
       <Header loggedIn={loggedIn} />
-      <Content>
-      </Content>
+      <Content />
       <LoginView login={!loggedIn} idToken={idToken} setIdToken={setIdToken} />
     </View>
   );
