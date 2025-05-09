@@ -56,11 +56,8 @@ function LoginView(props: { login: boolean, idToken: string | undefined, setIdTo
     };
 
     authorize(config)
-    .then(res => { console.log(res); props.setIdToken(res.idToken); })
-    .catch(err => console.log(err));
-    // const result = await authorize(config);
-    // console.log('Sup');
-    // console.log('[login] access token: ' + result.accessToken);
+    .then(res => props.setIdToken(res.idToken))
+    .catch(err => props.setIdToken(err));
   }
 
   return (
