@@ -22,5 +22,20 @@
             <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
       </activity>
+      <activity android:exported="true" android:name="net.openid.appauth.RedirectUriReceiverActivity">
+        <intent-filter android:autoVerify="true">
+            <action android:name="android.intent.action.VIEW"/>
+            <category android:name="android.intent.category.DEFAULT"/>
+            <category android:name="android.intent.category.BROWSABLE"/>
+            <data android:scheme="https" />
+            <data android:host="polite-desert-0d653561e.6.azurestaticapps.net" />
+        </intent-filter>
+        <intent-filter>
+            <action android:name="android.intent.action.VIEW"/>
+            <category android:name="android.intent.category.DEFAULT"/>
+            <category android:name="android.intent.category.BROWSABLE"/>
+            <data android:scheme="com.inout://oauth/redirect" />
+        </intent-filter>
+      </activity>
     </application>
 </manifest>
