@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, useState } from 'react';
+import React, { PropsWithChildren, useEffect, useState } from 'react';
 import { Button, ScrollView, Text, TextStyle, View, ViewStyle } from 'react-native';
 import { authorize, logout } from 'react-native-app-auth';
 
@@ -32,9 +32,25 @@ function LoginView(props: { login: boolean, idToken: string | undefined, setIdTo
 
   const [logoutStatus, setLogoutStatus] = useState<string>();
 
-  async function LOGOUT() {
+  async function LOGIN() {
     const config = {
       issuer: 'https://login.microsoftonline.com/e9b7c3ca-e5b9-4e36-9505-31492675d3aa/v2.0',
+      clientId : '7be81a56-1dbd-4817-b662-f9498b74fd4b',
+      redirectUrl: 'https://polite-desert-0d653561e.6.azurestaticapps.net',
+      scopes: ['openid', 'profile', 'email', 'offline_access'],
+    };
+
+    authorize(config)
+    .then(res => props.setIdToken(res.idToken));
+  }
+
+  async function LOGOUT() {
+    const config = {
+      serviceConfiguration: {
+        authorizationEndpoint: 'https://login.microsoftonline.com/common/oauth2/v2.0/authorize',
+        tokenEndpoint: 'https://login.microsoftonline.com/common/oauth2/v2.0/token',
+        endSessionEndpoint: 'https://login.microsoftonline.com/e9b7c3ca-e5b9-4e36-9505-31492675d3aa/oauth2/v2.0/logout',
+      },
       clientId: '7be81a56-1dbd-4817-b662-f9498b74fd4b',
     };
     logout(
@@ -43,21 +59,7 @@ function LoginView(props: { login: boolean, idToken: string | undefined, setIdTo
         postLogoutRedirectUrl: 'https://polite-desert-0d653561e.6.azurestaticapps.net',
         idToken: props.idToken!,
       },
-    ).then(res => setLogoutStatus(res.state)).catch(err => setLogoutStatus(err));
-    props.setIdToken(undefined);
-  }
-
-  async function LOGIN() {
-    const config = {
-      issuer: 'https://login.microsoftonline.com/e9b7c3ca-e5b9-4e36-9505-31492675d3aa/v2.0',
-      clientId : '7be81a56-1dbd-4817-b662-f9498b74fd4b',
-      redirectUrl: 'com.inout://oauth/redirect',
-      scopes: ['openid', 'profile', 'email', 'offline_access'],
-    };
-
-    authorize(config)
-    .then(res => props.setIdToken(res.idToken))
-    .catch(err => props.setIdToken(err));
+    ).then(res => setLogoutStatus(res.state)).finally(() => props.setIdToken(undefined));
   }
 
   return (
